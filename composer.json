@@ -1,0 +1,14 @@
+{
+    "name": "elct9620/mcu-course-api",
+    "description": "A Ming Chuan University Course API service.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "蒼時や",
+            "email": "elct9620@frost.tw"
+        }
+    ],
+    "require": {
+
+    }
+}
