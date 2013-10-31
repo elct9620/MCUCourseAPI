@@ -1,6 +1,8 @@
 <?php
+// Initialize Dependency Injection
+$di = require('DI.php');
 
-$di = require('di.php');
+// Initialize Phalcon Loader to load class
 $loader = new \Phalcon\Loader();
 $loader->registerDirs(
   array(
@@ -8,37 +10,16 @@ $loader->registerDirs(
   )
 )->register();
 
+// Initialize Phalcon Mirco Framework
 $app = new \Phalcon\Mvc\Micro($di);
-$app->response->setHeader('Content-Type', 'application/json,text/json');
+$app->response->setHeader('Content-Type', 'application/json,text/json'); // All data response to json
 
 // Routers
+define('RESOURCE_PATH', dirname(__FILE__) . '/Resources');
+define('PER_PAGE', 25);
 
-$app->get('/', function() use ($app) {
-  return $app->response->setJsonContent(
-    array(
-      'api' => array(
-        'version' => '0.1'
-      )
-    )
-  );
-});
-
-$app->get('/api/courses', function() use($app) {
-  $page = $app->request->getQuery('page', null, 1);
-  $startRecord = ($page - 1) * 25;
-  $phql = "SELECT * FROM Courses LIMIT {$startRecord}, 25";
-  $courses = $app->modelsManager->executeQuery($phql);
-
-  return $app->response->setJsonContent($courses->toArray());
-});
-
-$app->get('/api/courses/{name}', function($name) use ($app) {
-  $page = $app->request->getQuery('page', null, 1);
-  $startRecord = ($page - 1) * 25;
-  $phql = "SELECT * FROM Courses WHERE course_name LIKE :name: LIMIT {$startRecord}, 25";
-  $courses = $app->modelsManager->executeQuery($phql, array('name' => '%' . $name . '%'));
-
-  return $app->response->setJsonContent($courses->toArray());
-});
+include_once(RESOURCE_PATH . "/Home.php");
+include_once(RESOURCE_PATH . "/Department.php");
+include_once(RESOURCE_PATH . "/Course.php");
 
 $app->handle();
