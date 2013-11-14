@@ -119,14 +119,21 @@
 
 ``` json
 [
-	{
+	items[{
 		id: "1",
 		code: "00",
 		name: "通識教育中心",
 		created_at: "2013-10-31 09:19:43",
 		updated_at: "2013-10-31 09:19:43"
 	},
-	...
+	...],
+	next: 2,
+	first: 1,
+	before: 1,
+	current: 1,
+	last: 3,
+	total_pages: 3,
+	total_items: 53
 ]
 ```
 
@@ -144,15 +151,15 @@
 #### 範例
 
 ``` json
-[
-	{
-		id: "1",
-		code: "00",
-		name: "通識教育中心",
-		created_at: "2013-10-31 09:19:43",
-		updated_at: "2013-10-31 09:19:43"
-	}
-]
+
+{
+	id: "1",
+	code: "00",
+	name: "通識教育中心",
+	created_at: "2013-10-31 09:19:43",
+	updated_at: "2013-10-31 09:19:43"
+}
+
 ```
 
 ### `/courses` 課程列表
@@ -174,8 +181,8 @@
 #### 範例
 
 ``` json
-[
-	{
+{
+	items:[{
 		id: "1",
 		system: "1",
 		course_code: "02018",
@@ -191,8 +198,15 @@
 		created_at: "2013-10-31 09:20:03",
 		updated_at: "2013-10-31 09:20:03"
 	},
-	...
-]
+	...],
+	next: 2,
+	first: 1,
+	before: 1,
+	current: 1,
+	last: 82,
+	total_pages: 82,
+	total_items: 2032
+}
 ```
 
 ### `/course/(:id)` 課程資訊
@@ -210,24 +224,22 @@
 #### 範例
 
 ``` json
-[
-	{
-		id: "1",
-		system: "1",
-		course_code: "02018",
-		course_name: "攝影藝術欣賞",
-		class_code: "00101",
-		max_people: "108",
-		selected_people: "79",
-		year: "0",
-		select_type: "1",
-		credit: "2",
-		class_type: null,
-		semester: "1",
-		created_at: "2013-10-31 09:20:03",
-		updated_at: "2013-10-31 09:20:03"
-	}
-]
+{
+	id: "1",
+	system: "1",
+	course_code: "02018",
+	course_name: "攝影藝術欣賞",
+	class_code: "00101",
+	max_people: "108",
+	selected_people: "79",
+	year: "0",
+	select_type: "1",
+	credit: "2",
+	class_type: null,
+	semester: "1",
+	created_at: "2013-10-31 09:20:03",
+	updated_at: "2013-10-31 09:20:03"
+}
 ```
 
 ### `/teachers` [#TODO] 教師列表
