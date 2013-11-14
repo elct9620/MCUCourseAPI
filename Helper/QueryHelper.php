@@ -28,8 +28,15 @@ class QueryHelper extends Helper
   public function addFilter($name, $filterType = QueryHelper::FILTER_BOTH, $data = null)
   {
 
+    $paramName = $name;
+
+    if(is_array($name)) {
+      $paramName = $name['param'];
+      $name = $name['column'];
+    }
+
     if(is_null($data)) {
-      $data = $this->request->getQuery($name);
+      $data = $this->request->getQuery($paramName);
     }
     $query = "%:{$data}:%";
 
@@ -51,9 +58,9 @@ class QueryHelper extends Helper
     $condition = "{$name} LIKE :{$name}:";
 
     if($this->filterCount > 0) {
-      $this->model->andWhere($condition)->bind(array($name => $query));
+      $this->model->andWhere($condition, array($name => $query));
     } else {
-      $this->model->where($condition)->bind(array($name => $query));
+      $this->model->where($condition, array($name => $query));
     }
 
     $this->filterCount = $this->filterCount + 1;
