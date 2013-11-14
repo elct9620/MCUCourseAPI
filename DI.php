@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Helper
+ */
+require_once('Helper/Helper.php');
+require_once('Helper/QueryHelper.php');
+
 $di = new \Phalcon\DI\FactoryDefault();
 
 $di->set('db', function() {
@@ -11,5 +17,7 @@ $di->set('db', function() {
 $di->set('response', function() {
   return new \Phalcon\Http\Response();
 });
+
+$di->set('queryHelper', 'QueryHelper');
 
 return $di;
