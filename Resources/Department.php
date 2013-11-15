@@ -3,7 +3,7 @@
 $app->get('/departments', function() use ($app) {
 
   $queryHelper = $app->queryHelper;
-  $queryHelper->setModel(Departments::query());
+  $queryHelper->setModel('Departments');
   $queryHelper->addFilter('name');
   $queryHelper->usePage(PER_PAGE);
 
@@ -13,7 +13,7 @@ $app->get('/departments', function() use ($app) {
 $app->get('/department/{code:[0-9]+}', function($code) use ($app) {
 
   $queryHelper = $app->queryHelper;
-  $queryHelper->setModel(Departments::query());
+  $queryHelper->setModel('Departments');
   $queryHelper->addFilter('code', QueryHelper::FILTER_SIMPLE, $code);
 
   return $app->response->setJsonContent($queryHelper->result());

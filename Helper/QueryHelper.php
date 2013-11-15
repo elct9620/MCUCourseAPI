@@ -71,6 +71,9 @@ class QueryHelper extends Helper
   {
     $joinTables = $this->request->getQuery('with');
     $joinTables = explode(',', $joinTables);
+    if(count($accepts) > 0) {
+      $joinTables = array_intersect($array, $joinTables);
+    }
 
     foreach($joinTables as $table) {
       if(empty($table)) continue;
