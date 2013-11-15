@@ -10,14 +10,14 @@ class QueryHelper extends Helper
 
   protected $request = null;
 
-  protected $model = null;
+  protected $builder = null;
   protected $filterCount = 0;
 
   protected $perPage = 0;
 
   public function setModel($model)
   {
-    $this->model = $model;
+    $this->builder = $this->getDi()->getModelsManager()->createBuilder()->from($model);
   }
 
   public function usePage($perPage)
@@ -58,18 +58,31 @@ class QueryHelper extends Helper
     $condition = "{$name} LIKE :{$name}:";
 
     if($this->filterCount > 0) {
-      $this->model->andWhere($condition, array($name => $query));
+      $this->builder->andWhere($condition, array($name => $query));
     } else {
-      $this->model->where($condition, array($name => $query));
+      $this->builder->where($condition, array($name => $query));
     }
 
     $this->filterCount = $this->filterCount + 1;
 
   }
 
+  public function joinTables($accepts = array())
+  {
+    $joinTables = $this->request->getQuery('with');
+    $joinTables = explode(',', $joinTables);
+
+    foreach($joinTables as $table) {
+      if(empty($table)) continue;
+      $tableName = $this->capitalize($table);
+      $this->builder->join($tableName);
+      $this->builder->groupBy("Courses.id");
+    }
+  }
+
   public function result()
   {
-    $result = $this->model->execute();
+    $result = $this->builder->getQuery()->execute();
 
     if($this->perPage > 0) {
       $currentPage = $this->request->getQuery('page', 'int');
@@ -94,6 +107,14 @@ class QueryHelper extends Helper
     parent::setDi($di);
 
     $this->request = $this->getDi()->getRequest();
+  }
+
+  private function capitalize($name)
+  {
+    $name = str_replace('_', ' ', $name);
+    $name = ucwords($name);
+    $name = str_replace(' ', '', $name);
+    return $name;
   }
 
 }
