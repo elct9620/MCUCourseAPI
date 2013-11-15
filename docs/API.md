@@ -35,7 +35,6 @@
 
 * `name` (`filter`) 過濾項目，通常指以 `LIKE '%DATA%'` 方式查詢的資料，大多時候會將項目篩選。
 * `page` (`number`) 數值項目，通常用於只定頁碼。
-* `with` (`array`) 陣列項目，通常是以「course,departement」的方式呈現，通常指使用 `JOIN` 方式查詢的資料。
 * [#TODO] `param` (`filter`) 前方有 [#TODO] 的 Prefix 表示這項功能仍在開發中。
 
 ### 範例
@@ -47,9 +46,7 @@
 	{
 		id: "1",
 		code: "00",
-		name: "通識教育中心",
-		created_at: "2013-10-31 09:19:43",
-		updated_at: "2013-10-31 09:19:43"
+		name: "通識教育中心"
 	},
 	...
 ]
@@ -122,9 +119,7 @@
 	items[{
 		id: "1",
 		code: "00",
-		name: "通識教育中心",
-		created_at: "2013-10-31 09:19:43",
-		updated_at: "2013-10-31 09:19:43"
+		name: "通識教育中心"
 	},
 	...],
 	next: 2,
@@ -145,8 +140,7 @@
 
 #### 參數
 
-* [#TODO] `with` (`array`) 合併查詢，可用的項目如下
-	* `course` 相關課程資訊
+無
 
 #### 範例
 
@@ -155,9 +149,7 @@
 {
 	id: "1",
 	code: "00",
-	name: "通識教育中心",
-	created_at: "2013-10-31 09:19:43",
-	updated_at: "2013-10-31 09:19:43"
+	name: "通識教育中心"
 }
 
 ```
@@ -173,9 +165,6 @@
 * `course_code` (`filter`) 課程代碼
 * `class_code` (`filter`) 班級代碼
 * `page` (`number`) 頁碼
-* [#TODO] `with` (`array`) 合併查詢
-	* `teacher` 教師資訊
-	* `course_time` 上課時間
 * [#TODO] `department` (`filter`) 學系代碼
 
 #### 範例
@@ -194,9 +183,7 @@
 		select_type: "1",
 		credit: "2",
 		class_type: null,
-		semester: "1",
-		created_at: "2013-10-31 09:20:03",
-		updated_at: "2013-10-31 09:20:03"
+		semester: "1"
 	},
 	...],
 	next: 2,
@@ -217,9 +204,7 @@
 
 #### 參數
 
-* [#TODO] `with` (`array`) 合併查詢
-	* `teacher` 教師資訊
-	* `course_time` 上課時間 
+無 
 
 #### 範例
 
@@ -236,9 +221,7 @@
 	select_type: "1",
 	credit: "2",
 	class_type: null,
-	semester: "1",
-	created_at: "2013-10-31 09:20:03",
-	updated_at: "2013-10-31 09:20:03"
+	semester: "1"
 }
 ```
 
@@ -250,14 +233,34 @@
 
 * `name` (`filter`) 教師名稱
 * `class_room` (`filter`) 上課教室
-* `course_day` (`number`) 上課時間（星期）
-* `with` (`array`) 合併查詢
-	* `course` 課程資訊
-	* `course_time` 上課時間（節） 
 
 #### 範例
 
-無
+``` json
+{
+	items: [ {
+		id: "1",
+		teacher: "楊峰榮",
+		teacher_type: "1",
+		class_room: "E202",
+		camps: "1",
+		course_day: "1",
+		course_id: "1",
+		created_at: "2013-11-15 14:53:03",
+		updated_at: "2013-11-15 14:53:03"
+	},
+	...
+	],
+	next: 2,
+	first: 1,
+	before: 1,
+	current: 1,
+	last: 101,
+	total_pages: 101,
+	total_items: 2503
+}
+
+```
 
 ### `/teachers/(:name)` [#TODO] 教師資訊
 
@@ -267,12 +270,24 @@
 
 #### 參數
 
-* `class_room` (`filter`) 上課教室
-* `course_day` (`number`) 上課時間（星期）
-* `with` (`array`) 合併查詢
-	* `course` 課程資訊
-	* `course_time` 上課時間（節） 
+無
 
 #### 範例
 
-無
+``` json 
+[ 
+	{
+		id: "1",
+		teacher: "楊峰榮",
+		teacher_type: "1",
+		class_room: "E202",
+		camps: "1",
+		course_day: "1",
+		course_id: "1",
+		created_at: "2013-11-15 14:53:03",
+		updated_at: "2013-11-15 14:53:03"
+	},
+	...
+]
+```
+
