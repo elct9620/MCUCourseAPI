@@ -1,4 +1,9 @@
 <?php
+// Version and Update
+
+define('VERSION', '0.1.0');
+define('LAST_UPDATE', '2013-11-15');
+
 // Initialize Dependency Injection
 $di = require('DI.php');
 
