@@ -22,4 +22,20 @@ include_once(RESOURCE_PATH . "/Home.php");
 include_once(RESOURCE_PATH . "/Department.php");
 include_once(RESOURCE_PATH . "/Course.php");
 
+/**
+ * Notfoun Handler
+ */
+
+$app->notFound(function () use ($app) {
+  $app->response->setStatusCode(404, "Not Found")->sendHeaders();
+  $app->response->setJsonContent(
+    array(
+      'error' => array(
+        'code' => '404',
+        'message' => 'Not found.'
+      )
+    )
+  )->send();
+});
+
 $app->handle();
