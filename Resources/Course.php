@@ -13,10 +13,10 @@ $app->get('/courses', function() use($app) {
 });
 
 // Get course by id
-$app->get('/course/{id:[0-9]+}', function($id) use ($app) {
+$app->get('/course/{class_code:[0-9]+}', function($classCode) use ($app) {
   $queryHelper = $app->queryHelper;
   $queryHelper->setModel('Courses');
-  $queryHelper->addFilter('id', QueryHelper::FILTER_SIMPLE, $id);
+  $queryHelper->addFilter('class_code', QueryHelper::FILTER_SIMPLE, $classCode);
 
   return $app->response->setJsonContent($queryHelper->result());
 });
