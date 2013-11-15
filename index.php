@@ -21,6 +21,8 @@ define('PER_PAGE', 25);
 include_once(RESOURCE_PATH . "/Home.php");
 include_once(RESOURCE_PATH . "/Department.php");
 include_once(RESOURCE_PATH . "/Course.php");
+include_once(RESOURCE_PATH . "/Teacher.php");
+include_once(RESOURCE_PATH . "/CourseTime.php");
 
 /**
  * Notfoun Handler
