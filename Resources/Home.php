@@ -2,7 +2,7 @@
 
 // API Home Page
 
-$app->get('/', function() use ($app) {
+$app->get('/', function () use ($app) {
   return $app->response->setJsonContent(
     array(
       'api' => array(
@@ -12,5 +12,3 @@ $app->get('/', function() use ($app) {
     )
   );
 });
-
-

@@ -1,13 +1,14 @@
 <?php
 
-use Phalcon\Mvc\Model,
-    Phalcon\Mvc\Message;
+namespace MCUCourseAPI\Models;
+
+use Phalcon\Mvc\Model;
 
 class Teachers extends Model
 {
-  public function initialize()
-  {
-    $this->belongsTo('course_id', 'Courses', 'id');
-    $this->hasMany('id', 'CourseTimes', 'teacher_id');
-  }
+    public function initialize()
+    {
+        $this->belongsTo('course_id', 'Courses', 'id');
+        $this->hasMany('id', 'CourseTimes', 'teacher_id');
+    }
 }

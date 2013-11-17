@@ -1,16 +1,18 @@
 <?php
 
+namespace MCUCourseAPI\Helper;
+
 class Helper implements \Phalcon\DI\InjectionAwareInterface
 {
-  protected $_di;
+    protected $di;
 
-  public function setDi($di)
-  {
-    $this->_di = $di;
-  }
+    public function setDi($di)
+    {
+        $this->di = $di;
+    }
 
-  public function getDi()
-  {
-    return $this->_di;
-  }
+    public function getDi()
+    {
+        return $this->di;
+    }
 }

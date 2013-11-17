@@ -1,15 +1,16 @@
 <?php
 
-use Phalcon\Mvc\Model,
-    Phalcon\Mvc\Message;
+namespace MCUCourseAPI\Models;
+
+use Phalcon\Mvc\Model;
 
 class Courses extends Model
 {
-  protected $created_at;
-  protected $updated_at;
+    protected $created_at;
+    protected $updated_at;
 
-  public function initialize()
-  {
-    $this->hasMany('id', 'Teachers', 'course_id');
-  }
+    public function initialize()
+    {
+        $this->hasMany('id', 'Teachers', 'course_id');
+    }
 }

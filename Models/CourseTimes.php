@@ -1,15 +1,16 @@
 <?php
 
-use Phalcon\Mvc\Model,
-    Phalcon\Mvc\Message;
+namespace MCUCourseAPI\Models;
+
+use Phalcon\Mvc\Model;
 
 class CourseTimes extends Model
 {
-  protected $created_at;
-  protected $updated_at;
+    protected $created_at;
+    protected $updated_at;
 
-  public function initialize()
-  {
-    $this->belongs_to('teacher_id', 'Teachers', 'id');
-  }
+    public function initialize()
+    {
+        $this->belongs_to('teacher_id', 'Teachers', 'id');
+    }
 }
