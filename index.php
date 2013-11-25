@@ -15,6 +15,7 @@ $loader->registerNamespaces(
 
 // Initialize Phalcon Mirco Framework
 $app = new \Phalcon\Mvc\Micro($di);
+$app->response->setHeader('Access-Control-Allow-Origin', '*');
 $app->response->setHeader('Content-Type', 'application/json,text/json'); // All data response to json
 
 // Routers
