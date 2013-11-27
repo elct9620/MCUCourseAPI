@@ -13,12 +13,14 @@ class QueryHelper extends Helper
     protected $request = null;
 
     protected $builder = null;
+    protected $model = null;
     protected $filterCount = 0;
 
     protected $perPage = 0;
 
     public function setModel($model)
     {
+        $this->model = $model;
         $this->builder = $this->getDi()->getModelsManager()->createBuilder()->from($model);
     }
 
@@ -42,8 +44,15 @@ class QueryHelper extends Helper
         }
         $query = "%:{$data}:%";
 
+        $condition = "{$name} LIKE :{$name}:";
+
+        if (is_null($data)) {
+            return;
+        }
+
         switch ($filterType) {
             case QueryHelper::FILTER_SIMPLE:
+                $condition = "{$name} = :{$name}:";
                 $query = "{$data}";
                 break;
             case QueryHelper::FILTER_BOTH:
@@ -57,8 +66,6 @@ class QueryHelper extends Helper
                 break;
         }
 
-        $condition = "{$name} LIKE :{$name}:";
-
         if ($this->filterCount > 0) {
             $this->builder->andWhere($condition, array($name => $query));
         } else {
@@ -69,12 +76,28 @@ class QueryHelper extends Helper
 
     }
 
-    public function joinTables($accepts = array())
+    # TODO: Very slow
+    public function joinTables($accepts = array(), $tables = array(), $columns = array(), $groupBy = null)
     {
+        $joinOn = array();
+        $acceptTables = array();
+
+        foreach ($accepts as $accept) {
+            if (is_array($accept)) {
+                array_push($acceptTables, $accept['table']);
+                if (!empty($accept['joinOn'])) {
+                    $joinOn[$accept['table']] = $accept['joinOn'];
+                }
+                continue;
+            }
+            array_push($acceptTables, $accept);
+        }
+
         $joinTables = $this->request->getQuery('with');
         $joinTables = explode(',', $joinTables);
-        if (count($accepts) > 0) {
-            $joinTables = array_intersect($array, $joinTables);
+        $joinTables = array_merge($joinTables, $tables);
+        if (count($acceptTables) > 0) {
+            $joinTables = array_intersect($acceptTables, $joinTables);
         }
 
         foreach ($joinTables as $table) {
@@ -82,12 +105,24 @@ class QueryHelper extends Helper
                 continue;
             }
             $tableName = $this->capitalize($table);
-            $this->builder->join($tableName);
-            $this->builder->groupBy("Courses.id");
+            $fullTableName = 'MCUCourseAPI\Models\\' . $tableName;
+            $joinRule = null;
+            if (!empty($joinOn[$table])) {
+                $joinRule = $joinOn[$table];
+            }
+            $this->builder->innerJoin($fullTableName, $joinRule, $tableName);
+        }
+
+        if (!empty($groupBy)) {
+            $this->builder->groupBy($groupBy);
+        }
+
+        if (count($columns) > 0) {
+            $this->builder->columns($columns);
         }
     }
 
-    public function result()
+    public function result($toArray = true)
     {
         $result = $this->builder->getQuery()->execute();
 
@@ -100,9 +135,11 @@ class QueryHelper extends Helper
             ));
             $result = $result->getPaginate();
         } else {
-            $result = $result->toArray();
-            if (count($result) == 1) {
-                $result = $result[0];
+            if ($toArray) {
+                $result = $result->toArray();
+                if (count($result) == 1) {
+                    $result = $result[0];
+                }
             }
         }
 

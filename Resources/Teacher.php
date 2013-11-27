@@ -14,7 +14,7 @@ $app->get('/teacher/{name}', function ($name) use ($app) {
     $queryHelper->setModel('MCUCourseAPI\Models\Teachers');
     $queryHelper->addFilter(
         array('param' => 'name', 'column' => 'teacher'),
-        MCUCourseAPI\QueryHelper::FILTER_SIMPLE,
+        MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE,
         $name
     );
 

@@ -6,8 +6,6 @@ use Phalcon\Mvc\Model;
 
 class Courses extends Model
 {
-    public $teachers;
-
     protected $created_at;
     protected $updated_at;
 
