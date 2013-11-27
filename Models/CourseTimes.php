@@ -11,6 +11,8 @@ class CourseTimes extends Model
 
     public function initialize()
     {
-        $this->belongs_to('teacher_id', 'Teachers', 'id');
+        $this->belongs_to('teacher_id', 'MCUCourseAPI\Models\Teachers', 'id', array(
+          'alias' => 'Teachers'
+        ));
     }
 }
