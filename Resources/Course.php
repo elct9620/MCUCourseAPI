@@ -1,5 +1,7 @@
 <?php
 
+use MCUCourseAPI\Helper\QueryHelper;
+
 // All courses
 $app->get('/courses', function () use ($app) {
     $queryHelper = $app->queryHelper;
@@ -8,6 +10,10 @@ $app->get('/courses', function () use ($app) {
     $queryHelper->addFilter(array('param' => 'name', 'column' => 'course_name'));
     $queryHelper->addFilter('course_code');
     $queryHelper->addFilter('class_code');
+    $queryHelper->addFilter(array('param' => 'department', 'column' => 'class_code'), QueryHelper::FILTER_RIGHT);
+    $queryHelper->addFilter('year', QueryHelper::FILTER_SIMPLE);
+    $queryHelper->addFilter('system', QueryHelper::FILTER_SIMPLE);
+    $queryHelper->addFilter('select_type', QueryHelper::FILTER_SIMPLE);
 
     return $app->response->setJsonContent($queryHelper->result());
 });
@@ -16,7 +22,7 @@ $app->get('/courses', function () use ($app) {
 $app->get('/course/{class_code:[0-9]+}', function ($classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
-    $queryHelper->addFilter('class_code', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE, $classCode);
+    $queryHelper->addFilter('class_code', QueryHelper::FILTER_SIMPLE, $classCode);
 
     return $app->response->setJsonContent($queryHelper->result());
 });
@@ -25,7 +31,7 @@ $app->get('/course/{class_code:[0-9]+}', function ($classCode) use ($app) {
 $app->get('/course/{class_code:[0-9]+}/times', function ($classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
-    $queryHelper->addFilter('class_code', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE, $classCode);
+    $queryHelper->addFilter('class_code', QueryHelper::FILTER_SIMPLE, $classCode);
 
     $course = $queryHelper->result(false)->getFirst();
     $teachers = $course->getTeachers();
