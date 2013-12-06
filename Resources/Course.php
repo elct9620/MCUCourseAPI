@@ -19,18 +19,20 @@ $app->get('/courses', function () use ($app) {
 });
 
 // Get course by id
-$app->get('/course/{class_code:[0-9]+}', function ($classCode) use ($app) {
+$app->get('/course/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($courseCode, $classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
+    $queryHelper->addFilter('course_code', QueryHelper::FILTER_SIMPLE, $courseCode);
     $queryHelper->addFilter('class_code', QueryHelper::FILTER_SIMPLE, $classCode);
 
     return $app->response->setJsonContent($queryHelper->result());
 });
 
 // Get Data with Course Time
-$app->get('/course/{class_code:[0-9]+}/times', function ($classCode) use ($app) {
+$app->get('/course/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($courseCode, $classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
+    $queryHelper->addFilter('course_code', QueryHelper::FILTER_SIMPLE, $courseCode);
     $queryHelper->addFilter('class_code', QueryHelper::FILTER_SIMPLE, $classCode);
 
     $course = $queryHelper->result(false)->getFirst();
@@ -52,6 +54,7 @@ $app->get('/course/{class_code:[0-9]+}/times', function ($classCode) use ($app) 
             array_push($times, $time->time);
         }
         array_push($timesData, array(
+          'teacher' => $teacher->teacher,
           'day' => $teacher->course_day,
           'times' => $times
         ));
