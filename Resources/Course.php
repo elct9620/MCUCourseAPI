@@ -66,7 +66,7 @@ $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($
         array_push($timesData, array(
           'teacher' => $teacher->teacher,
           'day' => $teacher->course_day,
-          'times' => $times
+          'items' => $times
         ));
     }
 
@@ -102,7 +102,7 @@ $app->get('/courses/{id:[0-9]+}/times', function ($id) use ($app) {
         array_push($timesData, array(
           'teacher' => $teacher->teacher,
           'day' => $teacher->course_day,
-          'times' => $times
+          'items' => $times
         ));
     }
 
