@@ -19,7 +19,7 @@ $app->get('/courses', function () use ($app) {
 });
 
 // Get course by id
-$app->get('/course/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($courseCode, $classCode) use ($app) {
+$app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($courseCode, $classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
     $queryHelper->addFilter('course_code', QueryHelper::FILTER_SIMPLE, $courseCode);
@@ -29,7 +29,7 @@ $app->get('/course/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($courseC
 });
 
 // Get Data with Course Time
-$app->get('/course/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($courseCode, $classCode) use ($app) {
+$app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($courseCode, $classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
     $queryHelper->addFilter('course_code', QueryHelper::FILTER_SIMPLE, $courseCode);

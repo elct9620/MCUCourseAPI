@@ -9,7 +9,7 @@ $app->get('/teachers', function () use ($app) {
     return $app->response->setJsonContent($queryHelper->result());
 });
 
-$app->get('/teacher/{name}', function ($name) use ($app) {
+$app->get('/teachers/{name}', function ($name) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Teachers');
     $queryHelper->addFilter(
