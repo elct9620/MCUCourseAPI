@@ -18,7 +18,7 @@ $app->get('/courses', function () use ($app) {
     return $app->response->setJsonContent($queryHelper->result());
 });
 
-// Get course by id
+// Get course by course code and class code
 $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($courseCode, $classCode) use ($app) {
     $queryHelper = $app->queryHelper;
     $queryHelper->setModel('MCUCourseAPI\Models\Courses');
@@ -27,6 +27,16 @@ $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}', function ($course
 
     return $app->response->setJsonContent($queryHelper->result());
 });
+
+// ID Fallback
+$app->get('/courses/{id:[0-9]+}', function ($id) use ($app) {
+    $queryHelper = $app->queryHelper;
+    $queryHelper->setModel('MCUCourseAPI\Models\Courses');
+    $queryHelper->addFilter('id', QueryHelper::FILTER_SIMPLE, $id);
+
+    return $app->response->setJsonContent($queryHelper->result());
+});
+
 
 // Get Data with Course Time
 $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($courseCode, $classCode) use ($app) {
@@ -43,6 +53,42 @@ $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($
         'course_code' => $course->course_code,
         'class_code' => $course->class_code
 
+    );
+
+    $timesData = array();
+
+    foreach ($teachers as $teacher) {
+        $courseTimes = $teacher->getCourseTimes();
+        $times = array();
+        foreach ($courseTimes as $time) {
+            array_push($times, $time->time);
+        }
+        array_push($timesData, array(
+          'teacher' => $teacher->teacher,
+          'day' => $teacher->course_day,
+          'times' => $times
+        ));
+    }
+
+    $courseData['times'] = $timesData;
+
+    return $app->response->setJsonContent($courseData);
+});
+
+// ID Fallback
+
+$app->get('/courses/{id:[0-9]+}/times', function ($id) use ($app) {
+    $queryHelper = $app->queryHelper;
+    $queryHelper->setModel('MCUCourseAPI\Models\Courses');
+    $queryHelper->addFilter('id', QueryHelper::FILTER_SIMPLE, $id);
+
+    $course = $queryHelper->result(false)->getFirst();
+    $teachers = $course->getTeachers();
+
+    $courseData = array(
+        'course_name' => $course->course_name,
+        'course_code' => $course->course_code,
+        'class_code' => $course->class_code
     );
 
     $timesData = array();
