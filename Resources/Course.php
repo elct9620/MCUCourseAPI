@@ -66,11 +66,11 @@ $app->get('/courses/{course_code:[0-9]+}-{class_code:[0-9]+}/times', function ($
         array_push($timesData, array(
           'teacher' => $teacher->teacher,
           'day' => $teacher->course_day,
-          'items' => $times
+          'times' => $times
         ));
     }
 
-    $courseData['times'] = $timesData;
+    $courseData['items'] = $timesData;
 
     return $app->response->setJsonContent($courseData);
 });
@@ -102,11 +102,11 @@ $app->get('/courses/{id:[0-9]+}/times', function ($id) use ($app) {
         array_push($timesData, array(
           'teacher' => $teacher->teacher,
           'day' => $teacher->course_day,
-          'items' => $times
+          'times' => $times
         ));
     }
 
-    $courseData['times'] = $timesData;
+    $courseData['items'] = $timesData;
 
     return $app->response->setJsonContent($courseData);
 });
