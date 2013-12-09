@@ -6,6 +6,11 @@ $app->get('/course_times/{time:[0-9]+}/courses', function ($time) use ($app) {
     $queryHelper->usePage(PER_PAGE);
     $queryHelper->addFilter('course_day', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE);
     $queryHelper->addFilter(array('param' => 'name', 'column' => 'course_name'));
+    $queryHelper->addFilter('course_code');
+    $queryHelper->addFilter('class_code');
+    $queryHelper->addFilter('year', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE);
+    $queryHelper->addFilter('select_type', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE);
+    $queryHelper->addFilter('system', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE);
     $queryHelper->addFilter('time', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE, $time);
 
     $isGroup = $app->request->getQuery('group');
