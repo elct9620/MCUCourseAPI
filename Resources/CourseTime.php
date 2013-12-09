@@ -31,6 +31,7 @@ $app->get('/course_times/{time:[0-9]+}/courses', function ($time) use ($app) {
           'Courses.semester',
           'Courses.select_type',
           'Courses.system',
+          'Teachers.camps',
           'Teachers.teacher',
           'Teachers.course_day',
           'time'
