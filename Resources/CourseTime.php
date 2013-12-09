@@ -5,7 +5,14 @@ $app->get('/course_times/{time:[0-9]+}/courses', function ($time) use ($app) {
     $queryHelper->setModel('MCUCourseAPI\Models\CourseTimes');
     $queryHelper->usePage(PER_PAGE);
     $queryHelper->addFilter('course_day', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE);
+    $queryHelper->addFilter(array('param' => 'name', 'column' => 'course_name'));
     $queryHelper->addFilter('time', MCUCourseAPI\Helper\QueryHelper::FILTER_SIMPLE, $time);
+
+    $isGroup = $app->request->getQuery('group');
+    $groupString = null;
+    if ($isGroup) {
+        $groupString = "Courses.course_code, Courses.class_code";
+    }
 
     # TDOD: improve to more clearly
     $queryHelper->joinTables(
@@ -21,11 +28,14 @@ $app->get('/course_times/{time:[0-9]+}/courses', function ($time) use ($app) {
           'Courses.class_code',
           'Courses.year',
           'Courses.credit',
+          'Courses.semester',
+          'Courses.select_type',
+          'Courses.system',
           'Teachers.teacher',
           'Teachers.course_day',
           'time'
         ),
-        null
+        $groupString
     );
 
     return $app->response->setJsonContent($queryHelper->result());
